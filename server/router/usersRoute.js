@@ -19,6 +19,22 @@ router.post("/register", async (req, res) => {
   res.json({ message: "User registered successfully" });
 });
 
-router.post("/login", async (req, res) => {});
+router.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+  const user = await user_db.findOne({ username });
+
+  if (!user) {
+    return res.json({ message: "User not found" });
+  }
+
+  const isValid = await bcrypt.compare(password, user.password);
+
+  if (!isValid) {
+    return res.json({ message: "Username or password is incorrect" });
+  }
+
+  const token = jwt.sign({ id: user._id }, "secret");
+  res.json({ token: token, user_ID: user._id });
+});
 
 module.exports = router;
