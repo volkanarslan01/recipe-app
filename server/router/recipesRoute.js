@@ -13,8 +13,9 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/new", async (req, res) => {
+router.post("/", async (req, res) => {
   const recipe = new recipes(req.body);
+  console.log(recipe);
   try {
     await recipe.save();
     res.json(recipe);
@@ -51,6 +52,7 @@ router.get("/savedRecipes", async (req, res) => {
     const savedRecipes = await recipes.find({
       _id: { $in: users.savedRecipes },
     });
+    res.json({ savedRecipes });
   } catch (err) {
     res.json(err);
   }

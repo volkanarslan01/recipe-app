@@ -8,7 +8,7 @@ const userRouter = require("./router/usersRoute.js");
 const recipesRouter = require("./router/recipesRoute.js");
 app.use(express.json());
 app.use(cors());
-app.use("/auth", userRouter);
+app.use("/", userRouter);
 app.use("/recipes", recipesRouter);
 mongoose.connect(process.env.MONGO_DB, {
   useNewUrlParser: true,
